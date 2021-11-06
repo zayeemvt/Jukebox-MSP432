@@ -38,7 +38,11 @@ typedef enum _Note Note;
 #define NOTE_E_FLAT NOTE_D_SHARP
 #define NOTE_G_FLAT NOTE_F_SHARP
 #define NOTE_A_FLAT NOTE_G_SHARP
+#define NOTE_C_FLAT NOTE_B
+#define NOTE_F_FLAT NOTE_E
 #define NOTE_A_SHARP NOTE_B_FLAT
+#define NOTE_E_SHARP NOTE_F
+#define NOTE_B_SHARP NOTE_C
 
 enum _NoteProgress { NOTE_START, NOTE_PLAYING, NOTE_FINISHED };
 typedef enum _NoteProgress NoteProgress;

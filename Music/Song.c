@@ -9,7 +9,7 @@
 
 // Private API functions
 CompleteNote Song_makeNextNote(Song *song);
-uint32_t Song_calcNoteDuration(uint16_t tempo, NoteDuration duration);
+uint32_t Song_calcNoteDuration(uint16_t tempo, NoteDuration duration, uint8_t value);
 
 // Public
 Song Song_construct(uint16_t tempo, SongNote *notes, uint16_t length, bool loop, uint16_t loop_point) {
@@ -75,15 +75,16 @@ bool Song_playSong(Buzzer *buzzer, Song *song) {
 
 CompleteNote Song_makeNextNote(Song *song) {
     SongNote note_to_play = song->notes[song->note_index];
-    uint32_t duration = Song_calcNoteDuration(song->tempo, note_to_play.duration);
+    uint32_t duration = Song_calcNoteDuration(song->tempo, note_to_play.duration, note_to_play.value);
     CompleteNote new_note = CompleteNote_construct(note_to_play.note, note_to_play.octave, duration);
     return new_note;
 }
 
-uint32_t Song_calcNoteDuration(uint16_t tempo, NoteDuration division) {
+uint32_t Song_calcNoteDuration(uint16_t tempo, NoteDuration division, uint8_t value) {
     // Numerator: 4 beats per whole note * (60 * 1000) milliseconds per minute
     // Denominator: [tempo] beats per minute * [division] sixteenth notes per whole note
+    // Multiply by [value] number of tied notes
 
-    uint32_t time_ms = (4 * 1000 * 60) / (tempo * division);
+    uint32_t time_ms = (4 * 1000 * 60) / (tempo * division) * value;
     return time_ms;
 }

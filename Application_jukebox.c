@@ -38,11 +38,10 @@ int main(void)
 
     HAL hal = HAL_construct();
 
-    Jukebox_changeSong(&hal.buzzer, &app.jukebox, 0);
+    Jukebox_changeSong(&hal.buzzer, &app.jukebox, MM2_STAGECLEAR_INDEX);
     // Main super-loop! In a polling architecture, this function should call
     // your main FSM function over and over.
     while (true) {
-        Jukebox_playSong(&hal.buzzer, &app.jukebox);
         JukeboxApp_loop(&app, &hal);
         HAL_refresh(&hal);
 
@@ -112,21 +111,24 @@ void JukeboxApp_loop(JukeboxApp* app, HAL *hal_p)
     if (app->mute) {
         Buzzer_playRawNote(&hal_p->buzzer, NOTE_SILENT, 0);
     }
+    else {
+        Jukebox_playSong(&hal_p->buzzer, &app->jukebox);
+    }
 
     if (Button_isTapped(&hal_p->launchpadS1)) {
-        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, 0);
+        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, MM2_STAGECLEAR_INDEX);
     }
 
     if (Button_isTapped(&hal_p->launchpadS2)) {
-        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, 1);
+        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, MM2_PASSWORD_INDEX);
     }
 
     if (Button_isTapped(&hal_p->boosterpackS1)) {
-        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, 2);
+        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, MM3_WEAPONGET_INDEX);
     }
 
     if (Button_isTapped(&hal_p->boosterpackS2)) {
-        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, 3);
+        Jukebox_changeSong(&hal_p->buzzer, &app->jukebox, MM5_GRAVITYMANSTAGE_INDEX);
     }
     // Increment octave when BoosterPack S2 is tapped up, with a ceiling cap
 //    if (Button_isTapped(&hal_p->boosterpackS2) && app->octave < NUM_OCTAVES - 1) {
@@ -164,17 +166,16 @@ void JukeboxApp_loop(JukeboxApp* app, HAL *hal_p)
 }
 
 void JukeboxApp_addSongs(Jukebox *jukebox) {
-    Song testSong = Song_Test_construct();
+    Song testSong = Song_MM2StageClear_construct();
     Jukebox_addSong(jukebox, testSong);
 
-    testSong = Song_Test1_construct();
+    testSong = Song_MM2Password_construct();
     Jukebox_addSong(jukebox, testSong);
 
-    testSong = Song_Test2_construct();
+    testSong = Song_MM3WeaponGet_construct();
     Jukebox_addSong(jukebox, testSong);
 
-
-    testSong = Song_Test3_construct();
+    testSong = Song_MM5GravityManStage_construct();
     Jukebox_addSong(jukebox, testSong);
 }
 

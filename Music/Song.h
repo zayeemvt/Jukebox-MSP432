@@ -10,7 +10,7 @@
 
 #include <HAL/Buzzer.h>
 
-#define MAX_SONG_NOTES 100
+#define MAX_SONG_NOTES 200
 
 typedef enum {
     READY, PLAYING, NEXT_NOTE, FINISHED
@@ -21,13 +21,15 @@ typedef enum {
     HALF_NOTE = 2,
     QUARTER_NOTE = 4,
     EIGHTH_NOTE = 8,
-    SIXTEENTH_NOTE = 16
+    SIXTEENTH_NOTE = 16,
+    EIGHTH_TRIPLE = 12
 } NoteDuration;
 
 typedef struct {
     Note note;
     int octave;
     NoteDuration duration;
+    uint8_t value;
 } SongNote;
 
 typedef struct {

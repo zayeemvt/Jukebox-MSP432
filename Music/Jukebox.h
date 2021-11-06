@@ -10,7 +10,7 @@
 
 #include <Music/Song.h>
 
-#define MAX_SONGS 10
+#define MAX_SONGS 4
 
 typedef struct {
     Song song_list[MAX_SONGS];
